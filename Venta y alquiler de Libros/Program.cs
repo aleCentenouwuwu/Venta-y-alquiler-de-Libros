@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Venta_y_alquiler_de_Libros
 {
-    public class Program // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes)
+    public class Program // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes) y FECHAAAAS
     {
-        static void Main(string[] args)
+        static void Main(string[] args)  // no entiendo nada :( omgg utilizaste mi codigo de usuarios? :DDDDDDDDD
         {
             // almacenamiento
 
