@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 
 namespace Venta_y_alquiler_de_Libros
@@ -8,11 +9,18 @@ namespace Venta_y_alquiler_de_Libros
     {
         static void Main(string[] args)
         {
-            List<(string, string, int, int)> LibrosC = new List<(string, string, int, int)>(10);
+            List<(string, string, int, int)> LibrosCompra = new List<(string, string, int, int)>();
 
-            LibrosC.Add(("Cien anos de soledad", "Gabriel Garcia Marquez", 10, 200));
-            LibrosC.Add(("Pepito", "Pepe", 0, 5));
-            LibrosC.Add(("La mano arriba", "cintura sola", 20, 300));
+            LibrosCompra.Add(("Cien anos de soledad", "Gabriel Garcia Marquez", 10, 200));
+            LibrosCompra.Add(("Pepito", "Pepe", 0, 5));
+            LibrosCompra.Add(("La mano arriba", "cintura sola", 20, 300));
+            LibrosCompra.Add(("Harry Potter y la piedra filosofal o algo asi", "J.K. Rowling", 10, 500));
+            LibrosCompra.Sort();
+
+            List<(string, string, int, int)> LibrosAlquiler = new List<(string, string, int, int)>();
+            LibrosAlquiler.Add(("Azul", "Ruben Dario", 50, 150));
+            LibrosAlquiler.Add(("Prosas Profanas", "Ruben Dario", 20, 150));
+            LibrosAlquiler.Sort();
 
             bool continuar = false;
 
@@ -46,17 +54,57 @@ namespace Venta_y_alquiler_de_Libros
 
                         case 4: // ADMINISTRADOR DE LIBRERIA
                             //mostrar inventario e informacion de usuarios
-                            // tambien podria agregar o quitar cosas del inventario, pero no es necesario
+                            Console.Clear();
+                            Console.WriteLine("Ingrese su nombre");
+                            string nombre = Console.ReadLine();
+                            Console.WriteLine("Ingrese contrasena para poder acceder");
+                            string contrasena = "1234pepitoclavounclavito"; //contrasena unica
+                            string contraconfirm = Console.ReadLine();
+                            if (contraconfirm == contrasena)
+                            {
+                                Console.Clear();
+                                Console.WriteLine($"Bienvenido, administrador/a {nombre}");
+                                Console.WriteLine("1. Inventario");
+                                Console.WriteLine("2. Informacion de usuarios");
+                                Console.WriteLine("0. Volver");
+                                byte opc1 = Convert.ToByte(Console.ReadLine());
+                                switch (opc1) {
+                                    case 1:
+                                    Console.Clear();
+                                    Console.WriteLine($"Los libros disponibles en apartado de ventas son: ");
+                                    foreach (var libro in LibrosCompra)
+                                    {
+                                        Console.WriteLine($"Título: {libro.Item1}, Autor: {libro.Item2}, Cantidad: {libro.Item3}, Precio: {libro.Item4}");
+                                    }
+                                    Console.WriteLine("");
+                                    Console.WriteLine($"Los libros disponibles en apartado de alquiler son: ");
+                                    foreach (var libro in LibrosAlquiler)
+                                    {
+                                        Console.WriteLine($"Título: {libro.Item1}, Autor: {libro.Item2}, Cantidad: {libro.Item3}, Precio: {libro.Item4}");
+                                    }
+                                        break;
+                                    case 2:
+                                        break;
+                                    case 0:
+                                        Menu1();
+                                        break;
+                                    }
+                            } 
+                            else 
+                                {
+                                Console.Clear();
+                                Console.WriteLine("Incorrecto :("); }
+                                Console.ReadKey();
                             break;
 
                         default:
-                            Console.WriteLine("Error, intentelo de nuevo");
+                            Console.WriteLine("Error! Intentelo de nuevo");
                             break;
                     }
                 }
                 catch (FormatException)
                 {
-                    MensajeError("Sorry mejae de error");
+                    MensajeError("Ingrese datos correctamente, por favor.");
                 }
             } while (!continuar);
         }
