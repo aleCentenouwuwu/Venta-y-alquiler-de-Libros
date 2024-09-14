@@ -40,7 +40,7 @@ namespace Venta_y_alquiler_de_Libros
             while (!Salir) // programa principal
             {
                 Console.WriteLine("Ingrese su identificacion");
-                bool Id = VerificarId(Console.ReadLine());
+                bool Id = BoolId(Console.ReadLine());
 
                 Console.Clear();
                 Console.WriteLine($"Bienvenido, a libreria Pompompurin\n\n");
@@ -76,11 +76,11 @@ namespace Venta_y_alquiler_de_Libros
 
         }
 
-        public static bool VerificarId(string id)
+        public static bool BoolId(string id)
         {
             bool tieneLetra = id.Any(char.IsLetter);
             bool tieneGuion = id.Contains("-");
-            bool esUnico = ComprobarUnicidad(id);
+            bool esUnico = BoolUnico(id);
 
             if (id.Length != 10 || tieneGuion == false || tieneLetra == false || esUnico == false)
             {
@@ -90,7 +90,7 @@ namespace Venta_y_alquiler_de_Libros
             return true;
         }
 
-        public static bool ComprobarUnicidad(string id)
+        public static bool BoolUnico(string id)
         {
             if (id == "Si se hace x cosa y es unica")
             {
