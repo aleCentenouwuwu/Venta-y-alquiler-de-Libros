@@ -5,8 +5,9 @@ using System.Linq;
 
 namespace Venta_y_alquiler_de_Libros
 {
+    // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes)
     public class Program
-    {
+    { 
         static void Main(string[] args)
         {
             List<(string, string, int, int)> LibrosCompra = new List<(string, string, int, int)>();
@@ -15,12 +16,12 @@ namespace Venta_y_alquiler_de_Libros
             LibrosCompra.Add(("Pepito", "Pepe", 0, 5));
             LibrosCompra.Add(("La mano arriba", "cintura sola", 20, 300));
             LibrosCompra.Add(("Harry Potter y la piedra filosofal o algo asi", "J.K. Rowling", 10, 500));
-            LibrosCompra.Sort();
+            LibrosCompra.Sort(); //ordenados por orden alfabetico
 
             List<(string, string, int, int)> LibrosAlquiler = new List<(string, string, int, int)>();
             LibrosAlquiler.Add(("Azul", "Ruben Dario", 50, 150));
             LibrosAlquiler.Add(("Prosas Profanas", "Ruben Dario", 20, 150));
-            LibrosAlquiler.Sort();
+            LibrosAlquiler.Sort(); // ordenados por orden alfabetico
 
             bool continuar = false;
 
