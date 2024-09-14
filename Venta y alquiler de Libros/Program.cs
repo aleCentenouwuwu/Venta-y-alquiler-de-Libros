@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Venta_y_alquiler_de_Libros
 {
     public class Program
-    { // programa principal
+    {
         static void Main(string[] args)
         {
+            List<(string, string, int, int)> LibrosC = new List<(string, string, int, int)>(10);
+
+            LibrosC.Add(("Cien anos de soledad", "Gabriel Garcia Marquez", 10, 200));
+            LibrosC.Add(("Pepito", "Pepe", 0, 5));
+            LibrosC.Add(("La mano arriba", "cintura sola", 20, 300));
+
             bool continuar = false;
-            do
+
+            do // programa principal
             {
                 try
                 {
@@ -23,17 +27,15 @@ namespace Venta_y_alquiler_de_Libros
                         case 0: continuar = true; break;
 
                         case 1: // CLIENTE
-                            Menu2();
-                            //mostrar METODO de comprar
+                            Menu2(); //muestra metodo de comprar
                             break;
-
 
                         case 2: // PROFESOR
                             Console.WriteLine("Por favor, ingrese su ID actual");
                             string id = Console.ReadLine();
                             VerifID(id);
+                            //if verif valida xd mostrar opcion de alquilar y comprar
                             break;
-
 
                         case 3: // ESTUDIANTE
                             Console.WriteLine("Por favor, ingrese su ID actual");
@@ -42,11 +44,10 @@ namespace Venta_y_alquiler_de_Libros
                             //mostrar opcion de alquilar y comprar (con variantes)
                             break;
 
-
                         case 4: // ADMINISTRADOR DE LIBRERIA
                             //mostrar inventario e informacion de usuarios
+                            // tambien podria agregar o quitar cosas del inventario, pero no es necesario
                             break;
-
 
                         default:
                             Console.WriteLine("Error, intentelo de nuevo");
@@ -55,17 +56,15 @@ namespace Venta_y_alquiler_de_Libros
                 }
                 catch (FormatException)
                 {
-                    MensajeError();
+                    MensajeError("Sorry mejae de error");
                 }
             } while (!continuar);
         }
 
-
-
-        public static void MensajeError()
+        public static void MensajeError(string msg) // mensaje de error mejorado
         {
             Console.Clear();
-            Console.WriteLine("Error, por favor ingrese informacion correctamente");
+            Console.WriteLine(msg);
             Console.ReadKey();
         }
 
@@ -103,7 +102,7 @@ namespace Venta_y_alquiler_de_Libros
                     Menu1();
                     break;
                 default:
-                    MensajeError();
+                    MensajeError("pruebe potra cosa pls");
                     break;
             }
 
