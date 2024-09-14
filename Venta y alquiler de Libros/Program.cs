@@ -5,109 +5,58 @@ using System.Linq;
 
 namespace Venta_y_alquiler_de_Libros
 {
-    // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes)
-    public class Program
-    { 
+    public class Program // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes)
+    {
         static void Main(string[] args)
         {
-            List<(string, string, int, int)> LibrosCompra = new List<(string, string, int, int)>();
+            // almacenamiento
 
-            LibrosCompra.Add(("Cien anos de soledad", "Gabriel Garcia Marquez", 10, 200));
-            LibrosCompra.Add(("Pepito", "Pepe", 0, 5));
-            LibrosCompra.Add(("La mano arriba", "cintura sola", 20, 300));
-            LibrosCompra.Add(("Harry Potter y la piedra filosofal o algo asi", "J.K. Rowling", 10, 500));
-            LibrosCompra.Sort(); //ordenados por orden alfabetico
-
-            List<(string, string, int, int)> LibrosAlquiler = new List<(string, string, int, int)>();
-            LibrosAlquiler.Add(("Azul", "Ruben Dario", 50, 150));
-            LibrosAlquiler.Add(("Prosas Profanas", "Ruben Dario", 20, 150));
-            LibrosAlquiler.Sort(); // ordenados por orden alfabetico
-
-            bool continuar = false;
-
-            do // programa principal
+            List<Libro> LibrosVenta = new List<Libro>
             {
-                try
+                new Libro("Cien años de soledad", "Gabriel Garcia Marquez", 10, 200),
+                new Libro("Pepito", "Pepe", 0, 5),
+                new Libro("La mano arriba", "cintura sola", 20, 300),
+                new Libro("Harry Potter y la piedra filosofal o algo así", "J.K. Rowling", 10, 500)
+            };
+
+            List<Libro> LibrosAlquiler = new List<Libro>
+            {
+                new Libro("Azul", "Ruben Dario", 50, 150),
+                new Libro("Prosas Profanas", "Ruben Dario", 20, 150)
+            };
+
+            Dictionary<string, Usuario> Usuarios = new Dictionary<string, Usuario>()
+            {
                 {
-                    Menu1();
-                    byte opc = Convert.ToByte(Console.ReadLine());
-                    switch (opc)
-                    {
-                        case 0: continuar = true; break;
-
-                        case 1: // CLIENTE
-                            Menu2(); //muestra metodo de comprar
-                            break;
-
-                        case 2: // PROFESOR
-                            Console.WriteLine("Por favor, ingrese su ID actual");
-                            string id = Console.ReadLine();
-                            VerifID(id);
-                            //if verif valida xd mostrar opcion de alquilar y comprar
-                            break;
-
-                        case 3: // ESTUDIANTE
-                            Console.WriteLine("Por favor, ingrese su ID actual");
-                            string ID = Console.ReadLine();//con id
-                            VerifID(ID);
-                            //mostrar opcion de alquilar y comprar (con variantes)
-                            break;
-
-                        case 4: // ADMINISTRADOR DE LIBRERIA
-                            //mostrar inventario e informacion de usuarios
-                            Console.Clear();
-                            Console.WriteLine("Ingrese su nombre");
-                            string nombre = Console.ReadLine();
-                            Console.WriteLine("Ingrese contrasena para poder acceder");
-                            string contrasena = "1234pepitoclavounclavito"; //contrasena unica
-                            string contraconfirm = Console.ReadLine();
-                            if (contraconfirm == contrasena)
-                            {
-                                Console.Clear();
-                                Console.WriteLine($"Bienvenido, administrador/a {nombre}");
-                                Console.WriteLine("1. Inventario");
-                                Console.WriteLine("2. Informacion de usuarios");
-                                Console.WriteLine("0. Volver");
-                                byte opc1 = Convert.ToByte(Console.ReadLine());
-                                switch (opc1) {
-                                    case 1:
-                                    Console.Clear();
-                                    Console.WriteLine($"Los libros disponibles en apartado de ventas son: ");
-                                    foreach (var libro in LibrosCompra)
-                                    {
-                                        Console.WriteLine($"Título: {libro.Item1}, Autor: {libro.Item2}, Cantidad: {libro.Item3}, Precio: {libro.Item4}");
-                                    }
-                                    Console.WriteLine("");
-                                    Console.WriteLine($"Los libros disponibles en apartado de alquiler son: ");
-                                    foreach (var libro in LibrosAlquiler)
-                                    {
-                                        Console.WriteLine($"Título: {libro.Item1}, Autor: {libro.Item2}, Cantidad: {libro.Item3}, Precio: {libro.Item4}");
-                                    }
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 0:
-                                        Menu1();
-                                        break;
-                                    }
-                            } 
-                            else 
-                                {
-                                Console.Clear();
-                                Console.WriteLine("Incorrecto :("); }
-                                Console.ReadKey();
-                            break;
-
-                        default:
-                            Console.WriteLine("Error! Intentelo de nuevo");
-                            break;
-                    }
-                }
-                catch (FormatException)
+                    "id aqui", new Usuario("aleale@gmail.com", "contrasena123","Tipo de cliente", "nombre")
+                },
                 {
-                    MensajeError("Ingrese datos correctamente, por favor.");
+                    "id aqui", new Usuario("uwu@gmail.com", "omg12345", "Tipo de cliente", "nombre")
                 }
-            } while (!continuar);
+            };
+
+            bool Salir = false;
+
+            while (!Salir) // programa principal
+            {
+                Console.WriteLine("Ingrese su identificacion");
+                bool Id = VerificarId(Console.ReadLine());
+
+                Console.Clear();
+                Console.WriteLine($"Bienvenido, a libreria Pompompurin\n\n");
+                Console.WriteLine("Que desea hacer?\n");
+                Console.WriteLine("1. Comprar \n2. Alquilar \n0. Volver");
+
+                byte opc = byte.Parse(Console.ReadLine());
+
+                switch (opc)
+                {
+                    case 0: Salir = true; break;      // Salida
+                    case 1: Compra(); break;      // Comprar
+                    case 2: Alquiler(); break;      // Alquilar
+                    default: MensajeError("Opcion erronea"); break;
+                }
+            };
         }
 
         public static void MensajeError(string msg) // mensaje de error mejorado
@@ -117,70 +66,124 @@ namespace Venta_y_alquiler_de_Libros
             Console.ReadKey();
         }
 
-        public static void Menu1()
+        public static void Compra()
         {
-            Console.Clear();
-            Console.WriteLine("Bienvenido a libreria Pompompurin");
-            Console.WriteLine("1. Cliente");
-            Console.WriteLine("2. Profesor");
-            Console.WriteLine("3. Estudiante");
-            Console.WriteLine("4. Administrador");
-            Console.WriteLine("0. Salir");
-        }
-
-        public static void Menu2()
-        {
-            Console.Clear();
-            Console.WriteLine("Que desea hacer?");
-            Console.WriteLine("1. Comprar");
-            Console.WriteLine("2. Alquilar");
-            Console.WriteLine("0. Volver");
-            byte opc1 = byte.Parse(Console.ReadLine());
-
-            switch (opc1)
-            {
-                case 1:
-                    // metodo de compras
-                    break;
-                case 2:
-                    Console.Clear();
-                    Console.WriteLine("Lo sentimos, pero no puede realizar esta accion.");
-                    Console.ReadKey();
-                    break;
-                case 0:
-                    Menu1();
-                    break;
-                default:
-                    MensajeError("pruebe potra cosa pls");
-                    break;
-            }
 
         }
 
-        public static void Menu3()
+        public static void Alquiler()
         {
-            Console.Clear();
-            Console.WriteLine("Que desea hacer?");
-            Console.WriteLine("1. Comprar");
-            Console.WriteLine("2. Alquilar");
-            byte opc1 = byte.Parse(Console.ReadLine());
+
         }
 
-        public static void VerifID(string id)
+        public static bool VerificarId(string id)
         {
             bool tieneLetra = id.Any(char.IsLetter);
             bool tieneGuion = id.Contains("-");
-            if (id.Length<10 || id.Length>10 || tieneGuion == true || tieneLetra == true)
+            bool esUnico = ComprobarUnicidad(id);
+
+            if (id.Length != 10 || tieneGuion == false || tieneLetra == false || esUnico == false)
             {
-                Console.Clear();
-                Console.WriteLine("Su identificacion es invalida");
-                Console.ReadKey();
+                MensajeError("Su identificacion es invalida");
+                return false;
             }
-            else
+            return true;
+        }
+
+        public static bool ComprobarUnicidad(string id)
+        {
+            if (id == "Si se hace x cosa y es unica")
             {
-                Menu3();
+                return true;
             }
-            
+            return false;
+        }
+    }
+
+    public class Libro
+    {
+        public string Titulo { get; set; }
+        public string Autor { get; set; }
+        public int Cantidad { get; set; }
+        public int Precio { get; set; }
+
+        public Libro(string titulo, string autor, int cantidad, int precio)
+        {
+            Titulo = titulo;
+            Autor = autor;
+            Cantidad = cantidad;
+            Precio = precio;
+        }
+    }
+
+    public class Usuario
+    {
+        public string Correo { get; set; }
+        public string Contraseña { get; set; }
+        public string Nombre { get; set; }
+        public string Tipo { get; set; }
+
+        public Usuario(string correo, string contraseña, string nombre, string tipo)
+        {
+            Correo = correo;
+            Contraseña = contraseña;
+            Nombre = nombre;
+            Tipo = tipo;
+        }
+    }
+
+    public class Sistema
+    {
+        private List<Usuario> usuarios;
+        private Usuario usuarioActual;
+
+        public bool IniciarSesion(string correo, string contraseña)
+        {
+            foreach (var usuario in usuarios)
+            {
+                if (usuario.Correo == correo && usuario.Contraseña == contraseña)
+                {
+                    usuarioActual = usuario;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool EsCorreoValido(string correo)
+        {
+            return true;
+        }
+
+        public bool CrearCuenta(string correo, string contraseña)
+        {
+            if (!EsCorreoValido(correo))
+            {
+                Console.WriteLine("Correo electrónico no válido.");
+                return false;
+            }
+
+            if (contraseña.Length < 8)
+            {
+                Console.WriteLine("La contraseña debe tener al menos 8 caracteres.");
+                return false;
+            }
+
+            foreach (var usuario in usuarios)
+            {
+                if (usuario.Correo == correo)
+                {
+                    Console.WriteLine("El correo electrónico ya está en uso.");
+                    return false;
+                }
+            }
+
+            //usuarios.Add(new Usuario(correo, contraseña));
+            Console.Clear();
+            Console.WriteLine("Cuenta creada exitosamente.");
+            Console.ReadKey();
+
+            return true;
         }
     }
 }
