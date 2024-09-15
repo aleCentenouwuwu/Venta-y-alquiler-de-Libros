@@ -1,61 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 
 namespace Venta_y_alquiler_de_Libros
 {
-    public class Program // falta: Funcion de comprar, alquilar, devolucion, guardar info de usuario (clientes) y FECHAAAAS
+    public class Program
     {
-        static void Main(string[] args)  // no entiendo nada :( omgg utilizaste mi codigo de usuarios? :DDDDDDDDD
-        {
-            // almacenamiento
-
-            List<Libro> LibrosVenta = new List<Libro>
+        public static List<(string, string, int, int)> LibrosVenta = new List<(string, string, int, int)>()
             {
-                new Libro("Cien años de soledad", "Gabriel Garcia Marquez", 10, 200),
-                new Libro("Pepito", "Pepe", 0, 5),
-                new Libro("La mano arriba", "cintura sola", 20, 300),
-                new Libro("Harry Potter y la piedra filosofal o algo así", "J.K. Rowling", 10, 500)
+                ("Cien años de soledad", "Gabriel Garcia Marquez", 10, 200),
+                ("Pepito", "Pepe", 0, 5),
+                ("La mano arriba", "cintura sola", 20, 300),
+                ("Harry Potter y la piedra filosofal o algo así", "J.K. Rowling", 10, 500)
             };
 
-            List<Libro> LibrosAlquiler = new List<Libro>
+        public static List<(string, string, int, int)> LibrosAlquiler = new List<(string, string, int, int)>()
             {
-                new Libro("Azul", "Ruben Dario", 50, 150),
-                new Libro("Prosas Profanas", "Ruben Dario", 20, 150)
+                ("Azul", "Ruben Dario", 50, 150),
+                ("Prosas Profanas", "Ruben Dario", 20, 150)
             };
 
-            Dictionary<string, Usuario> Usuarios = new Dictionary<string, Usuario>()
+        public static Dictionary<string, Usuario> Usuarios = new Dictionary<string, Usuario>()
             {
                 {
-                    "id aqui", new Usuario("aleale@gmail.com", "contrasena123","Tipo de cliente", "nombre")
+                    "id 3839", new Usuario("aleale@gmail.com", "contrasena123","Tipo de cliente", "nombre")
                 },
                 {
                     "id aqui", new Usuario("uwu@gmail.com", "omg12345", "Tipo de cliente", "nombre")
                 }
             };
 
+        static void Main(string[] args)
+        {
             bool Salir = false;
 
             while (!Salir) // programa principal
             {
-                Console.WriteLine("Ingrese su identificacion");
-                bool Id = BoolId(Console.ReadLine());
-
-                IniciarSesion(Console.ReadLine(), );
-
                 Console.Clear();
                 Console.WriteLine($"Bienvenido, a libreria Pompompurin\n\n");
                 Console.WriteLine("Que desea hacer?\n");
-                Console.WriteLine("1. Comprar \n2. Alquilar \n0. Volver");
+                Console.WriteLine("1. Comprar \n2. Alquilar \n0. Salir");
 
                 byte opc = byte.Parse(Console.ReadLine());
 
                 switch (opc)
                 {
-                    case 0: Salir = true; break;      // Salida
-                    case 1: Compra(); break;      // Comprar
-                    case 2: Alquiler(); break;      // Alquilar
+                    case 0: Salir = true;   break;    // Salida
+                    case 1: Compra();       break;    // Comprar
+                    case 2: Alquiler();     break;    // Alquilar
                     default: MensajeError("Opcion erronea"); break;
                 }
             };
@@ -68,14 +60,98 @@ namespace Venta_y_alquiler_de_Libros
             Console.ReadKey();
         }
 
+        public static void MostrarLibrosCompra()
+        {
+            Console.Clear();
+            Console.WriteLine($"Los libros disponibles en apartado de ventas son: ");
+            foreach (var Libro in LibrosVenta)
+            {
+                Console.WriteLine($"Título: {Libro.Item1}, Autor: {Libro.Item2}, Cantidad: {Libro.Item3}, Precio: {Libro.Item4}");
+            }
+        }
+
+        public static void MostrarLibrosAlquiler()
+        {
+            Console.WriteLine($"\nLos libros disponibles en apartado de alquiler son: ");
+
+            foreach (var Libro in LibrosAlquiler)
+            {
+                Console.WriteLine($"Título: {Libro.Item1}, Autor: {Libro.Item2}, Cantidad: {Libro.Item3}, Precio: {Libro.Item4}");
+            }
+        }
+
         public static void Compra()
         {
+            Console.Clear();
+            MostrarLibrosCompra();
+            Console.WriteLine("\n Que libro quiere comprar");
+            string nombre = Console.ReadLine();
 
+            foreach (var Libro in LibrosVenta)
+            {
+                if (nombre == Libro.Item1)
+                {
+                    if (Libro.Item3 == 0)
+                    {
+                        Console.WriteLine("Jo, No Hay de ese libro");
+                    }
+                    else
+                    {
+                        Console.WriteLine("CUANTOS >:(");
+                        int cant = Int32.Parse(Console.ReadLine());
+
+                        if (cant > Libro.Item3)
+                        {
+                            Console.WriteLine("no seas consumista");
+                        };
+
+                        Console.WriteLine("Su compra fue exitosa :D");
+                        Console.ReadKey();
+                    }
+                }
+            };
         }
 
         public static void Alquiler()
         {
+            Console.WriteLine("Ingrese su identificacion");
+            bool Id = BoolId(Console.ReadLine());
 
+            if (Id == false)
+            {
+                MensajeError("No ccooreto");
+            }
+            else
+            {
+                Console.Clear();
+                MostrarLibrosAlquiler();
+                Console.WriteLine("\n Que libro quiere comprar");
+                string nombre = Console.ReadLine();
+
+                foreach (var Libro in LibrosAlquiler)
+                {
+                    if (nombre == Libro.Item1)
+                    {
+                        if (Libro.Item3 == 0)
+                        {
+                            Console.WriteLine("Jo, No Hay de ese libro");
+                        }
+                        else
+                        {
+                            Console.WriteLine("CUANTOS >:(");
+                            int cant = Int32.Parse(Console.ReadLine());
+
+                            if (cant > Libro.Item3)
+                            {
+                                Console.WriteLine("no seas consumista");
+                            };
+
+                            Console.WriteLine("Su compra fue exitosa :D");
+                            Console.ReadKey();
+                        }
+                    }
+                };
+            }
         }
 
         public static bool BoolId(string id)
@@ -94,81 +170,8 @@ namespace Venta_y_alquiler_de_Libros
 
         public static bool BoolUnico(string id)
         {
-            if (id == "Si se hace x cosa y es unica")
-            {
-                return true;
-            }
-            return false;
-        }
+            return !Usuarios.ContainsKey(id);
 
-        private List<Usuario> usuarios;
-        private Usuario usuarioActual;
-
-        static public bool IniciarSesion(string id)
-        {
-            Usuarios.
-
-            foreach (var usuario in usuarios)
-            {
-                if (usuario.Correo == correo && usuario.Contraseña == contraseña)
-                {
-                    usuarioActual = usuario;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool EsCorreoValido(string correo)
-        {
-            return true;
-        }
-
-        public bool CrearCuenta(string correo, string contraseña)
-        {
-            if (!EsCorreoValido(correo))
-            {
-                Console.WriteLine("Correo electrónico no válido.");
-                return false;
-            }
-
-            if (contraseña.Length < 8)
-            {
-                Console.WriteLine("La contraseña debe tener al menos 8 caracteres.");
-                return false;
-            }
-
-            foreach (var usuario in usuarios)
-            {
-                if (usuario.Correo == correo)
-                {
-                    Console.WriteLine("El correo electrónico ya está en uso.");
-                    return false;
-                }
-            }
-
-            //usuarios.Add(new Usuario(correo, contraseña));
-            Console.Clear();
-            Console.WriteLine("Cuenta creada exitosamente.");
-            Console.ReadKey();
-
-            return true;
-        }
-    }
-
-    public class Libro
-    {
-        public string Titulo { get; set; }
-        public string Autor { get; set; }
-        public int Cantidad { get; set; }
-        public int Precio { get; set; }
-
-        public Libro(string titulo, string autor, int cantidad, int precio)
-        {
-            Titulo = titulo;
-            Autor = autor;
-            Cantidad = cantidad;
-            Precio = precio;
         }
     }
 
