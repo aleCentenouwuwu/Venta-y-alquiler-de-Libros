@@ -72,7 +72,6 @@ namespace Venta_y_alquiler_de_Libros
             } while (!Continuar);
         }
 
-
         // METODOS
 
         public static void MensajeError(string msg) // mensaje de error 
@@ -81,7 +80,6 @@ namespace Venta_y_alquiler_de_Libros
             Console.WriteLine(msg);
             Console.ReadKey();
         }
-
         public static void MostrarLibrosCompra()
         {
             Console.Clear();
@@ -91,7 +89,6 @@ namespace Venta_y_alquiler_de_Libros
                 Console.WriteLine($"Título: {Libro.Item1}, Autor: {Libro.Item2}, ISBN: {Libro.Item3}, Cantidad: {Libro.Item4}, Precio: C${Libro.Item5}");
             }
         }
-
         public static void MostrarLibrosAlquiler()
         {
             Console.Clear();
@@ -102,7 +99,6 @@ namespace Venta_y_alquiler_de_Libros
                 Console.WriteLine($"Título:{Libro.Item1}, Autor:{Libro.Item2}, ISBN:{Libro.Item3}, Cantidad:{Libro.Item4}, Precio:C${Libro.Item5}");
             }
         }
-
         public static void Compra()
         {
             MostrarLibrosCompra();
@@ -139,7 +135,6 @@ namespace Venta_y_alquiler_de_Libros
                 }
             }; Console.ReadKey();
         }
-
         public static void Menu1()
         {
             Console.Clear();
@@ -276,13 +271,11 @@ namespace Venta_y_alquiler_de_Libros
             }
             return true;
         }
-
         public static bool BoolUnico(string id)
         {
             return !Usuarios.ContainsKey(id);
 
         }
-
         public static void Administrador()
         {
             Console.Clear();
@@ -350,7 +343,6 @@ namespace Venta_y_alquiler_de_Libros
                 Console.ReadKey();
             }
         }
-
         public static void AdministrarLibros()
         {
             Console.Clear();
@@ -436,7 +428,6 @@ namespace Venta_y_alquiler_de_Libros
 
             }
         }
-      
     }
 
     // CLASES
