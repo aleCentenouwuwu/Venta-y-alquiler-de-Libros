@@ -360,20 +360,16 @@ namespace Venta_y_alquiler_de_Libros
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
             {
-                case 1: //AGREGAR LIBRO A LISTA
+                case 1: //AGREGAR LIBRO A LISTA}
+
                     Console.WriteLine("Ingrese informacion del libro.");
-                    Console.WriteLine("Titulo:");
-                    string Titulo = Console.ReadLine();
-                    Console.WriteLine("Autor:");
-                    string Autor = Console.ReadLine();
-                    Console.WriteLine("ISBN");
-                    string ISBN = Console.ReadLine();
-                    Console.WriteLine("Cantidad:");
-                    int cantidad = byte.Parse(Console.ReadLine());
-                    Console.WriteLine("Precio:");
-                    int precio = byte.Parse(Console.ReadLine());
-                    Console.WriteLine("1. Agregar a Venta \n2. Agregar a Alquiler");
-                    int opc = int.Parse(Console.ReadLine());
+                    string  Titulo      = DeclararVariable("Titulo:");
+                    string  Autor       = DeclararVariable("Autor:");
+                    string  ISBN        = DeclararVariable("ISBN");
+                    int     cantidad    = Int32.Parse(DeclararVariable("Cantidad:"));
+                    int     precio      = Int32.Parse(DeclararVariable("Precio:"));
+
+                    int opc = int.Parse(DeclararVariable("1. Agregar a Venta \n2. Agregar a Alquiler"));
 
                     if (opc == 1)
                     {
@@ -437,6 +433,11 @@ namespace Venta_y_alquiler_de_Libros
 
             }
         }
+        public static string DeclararVariable(string Peticion)
+        {
+            Console.WriteLine(Peticion);
+            return Console.ReadLine();
+        } // Imprime un pensaje y permite declarar la repuesta cpomo variable mas compacto
         public static void Historial(List<Libro> libros)
         {
             Console.WriteLine("Historial de Movimientos");
