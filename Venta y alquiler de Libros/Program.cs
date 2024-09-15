@@ -42,6 +42,8 @@ namespace Venta_y_alquiler_de_Libros
                 Console.WriteLine("Ingrese su identificacion");
                 bool Id = BoolId(Console.ReadLine());
 
+                IniciarSesion(Console.ReadLine(), );
+
                 Console.Clear();
                 Console.WriteLine($"Bienvenido, a libreria Pompompurin\n\n");
                 Console.WriteLine("Que desea hacer?\n");
@@ -98,47 +100,14 @@ namespace Venta_y_alquiler_de_Libros
             }
             return false;
         }
-    }
 
-    public class Libro
-    {
-        public string Titulo { get; set; }
-        public string Autor { get; set; }
-        public int Cantidad { get; set; }
-        public int Precio { get; set; }
-
-        public Libro(string titulo, string autor, int cantidad, int precio)
-        {
-            Titulo = titulo;
-            Autor = autor;
-            Cantidad = cantidad;
-            Precio = precio;
-        }
-    }
-
-    public class Usuario
-    {
-        public string Correo { get; set; }
-        public string Contraseña { get; set; }
-        public string Nombre { get; set; }
-        public string Tipo { get; set; }
-
-        public Usuario(string correo, string contraseña, string nombre, string tipo)
-        {
-            Correo = correo;
-            Contraseña = contraseña;
-            Nombre = nombre;
-            Tipo = tipo;
-        }
-    }
-
-    public class Sistema
-    {
         private List<Usuario> usuarios;
         private Usuario usuarioActual;
 
-        public bool IniciarSesion(string correo, string contraseña)
+        static public bool IniciarSesion(string id)
         {
+            Usuarios.
+
             foreach (var usuario in usuarios)
             {
                 if (usuario.Correo == correo && usuario.Contraseña == contraseña)
@@ -184,6 +153,38 @@ namespace Venta_y_alquiler_de_Libros
             Console.ReadKey();
 
             return true;
+        }
+    }
+
+    public class Libro
+    {
+        public string Titulo { get; set; }
+        public string Autor { get; set; }
+        public int Cantidad { get; set; }
+        public int Precio { get; set; }
+
+        public Libro(string titulo, string autor, int cantidad, int precio)
+        {
+            Titulo = titulo;
+            Autor = autor;
+            Cantidad = cantidad;
+            Precio = precio;
+        }
+    }
+
+    public class Usuario
+    {
+        public string Correo { get; set; }
+        public string Contraseña { get; set; }
+        public string Nombre { get; set; }
+        public string Tipo { get; set; }
+
+        public Usuario(string correo, string contraseña, string nombre, string tipo)
+        {
+            Correo = correo;
+            Contraseña = contraseña;
+            Nombre = nombre;
+            Tipo = tipo;
         }
     }
 }
