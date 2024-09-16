@@ -159,7 +159,7 @@ namespace Venta_y_alquiler_de_Libros
                 }
                 else
                 {
-                    libros[i].Cantidad = -cant;
+                    libros[i].Cantidad -= cant;
                     Console.ForegroundColor = ConsoleColor.Green;
                     SonidoMenu();
                     Console.WriteLine($"Su total es de: C${libros[i].Precio * cant}, pagar en caja por favor.");
