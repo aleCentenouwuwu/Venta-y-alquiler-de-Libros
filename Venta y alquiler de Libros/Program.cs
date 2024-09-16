@@ -7,7 +7,7 @@ using System.Media;
 using System.Runtime.InteropServices.WindowsRuntime;
 using static Venta_y_alquiler_de_Libros.Program;
 
-// by Alexania J. Centeno Pauyh, Lia B. Matamoros Martínez and Victor A. Martinez Castellón
+// by Alexania J. Centeno Pauth, and Victor A. Martinez Castellón
 
 namespace Venta_y_alquiler_de_Libros
 {
