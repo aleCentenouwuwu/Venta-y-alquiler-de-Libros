@@ -52,13 +52,13 @@ namespace Venta_y_alquiler_de_Libros
                             Continuar = true;
                             break;    // Salida
                         case 1:
-                            Compra();
+                            Venta(LibrosVenta);
                             break;    // Comprar
                         case 2:
-                            Alquiler();
+                            Alquiler(LibrosAlquiler);
                             break;    // Alquilar
-                        case 3:  //metodo devolucion
-                            break;
+                        case 3:  
+                            break;//metodo devolucion
                         case 4:
                             Administrador();
                             break;
@@ -93,60 +93,47 @@ namespace Venta_y_alquiler_de_Libros
             Console.WriteLine(msg);
             Console.ReadKey();
         } // mensaje de error
-        public static void MostrarLibrosCompra(List<Libro> libros)
+        public static void MostrarLibros(List<Libro> libros, string tipo)
         {
-            Console.Clear();
-            Console.WriteLine($"Los libros disponibles en apartado de ventas son: ");
+            Console.WriteLine($"\nLos libros disponibles en apartado de {tipo} son: ");
             foreach (var Libro in libros)
             {
                 Console.WriteLine($"Título: {Libro.Titulo}, Autor: {Libro.Autor}, ISBN: {Libro.ISBN}, Cantidad: {Libro.Cantidad}, Precio: C${Libro.Precio}");
             }
         }
-        public static void MostrarLibrosAlquiler()
+        public static void Venta(List<Libro> libros)
         {
-            Console.Clear();
-            Console.WriteLine($"Los libros disponibles en apartado de alquiler son: ");
+            MostrarLibros(LibrosVenta, "Venta");
 
-            foreach (var Libro in LibrosAlquiler)
-            {
-                Console.WriteLine($"Título:{Libro.Titulo}, Autor:{Libro.Autor}, ISBN:{Libro.ISBN}, Cantidad:{Libro.Cantidad}, Precio:C${Libro.Precio}");
-            }
-        }
-        public static void Compra()
-        {
-            MostrarLibrosCompra(LibrosVenta);
-            Console.WriteLine("\nIngrese titulo del libro que desea comprar.");
-            string nombre = Console.ReadLine();
+            string nombre = DeclararVariable("\nIngrese titulo del libro que desea comprar.");
 
-            for (int i = 0; i < LibrosVenta.Count; i++)
+            for (int i = 0; i < libros.Count; i++)
             {
-                if (nombre == LibrosVenta[i].Titulo)
+                if (nombre == libros[i].Titulo)
                 {
-                    if (LibrosVenta[i].Cantidad == 0)
+                    if (libros[i].Cantidad == 0)
                     {
                         Console.WriteLine("El libro actualmente no se encuentra en el sistema.");
                     }
                     else
                     {
-                        Console.WriteLine("¿Cuántos desea comprar?");
-                        int cant = Int32.Parse(Console.ReadLine());
+                        int cant = Int32.Parse(DeclararVariable("¿Cuántos desea comprar?"));
 
-                        if (cant > LibrosVenta[i].Cantidad)
+                        if (cant > libros[i].Cantidad)
                         {
                             Console.WriteLine("No seas consumista.");
                         }
                         else
                         {
-                            LibrosVenta[i] = new Libro(LibrosVenta[i].Titulo, LibrosVenta[i].Autor, LibrosVenta[i].ISBN, LibrosVenta[i].Cantidad - cant, LibrosVenta[i].Cantidad);
-                            Console.WriteLine($"Su total es de: C${LibrosVenta[i].Precio * cant}, pagar en caja por favor.");
+                            libros[i] = new Libro(libros[i].Titulo, libros[i].Autor, libros[i].ISBN, libros[i].Cantidad - cant, libros[i].Cantidad);
+                            Console.WriteLine($"Su total es de: C${libros[i].Precio * cant}, pagar en caja por favor.");
                             Console.WriteLine("Su compra fue exitosa :D");
                         }
-
                     }
                 }
             }; Console.ReadKey();
         }
-        public static void Alquiler()
+        public static void Alquiler(List<Libro> libros)
         {
             Console.WriteLine("Ingrese su rol \n1. Estudiante \n2. Profesor");
             byte opc = byte.Parse(Console.ReadLine());
@@ -155,21 +142,19 @@ namespace Venta_y_alquiler_de_Libros
             {
                 bool Id = BoolIdEstudiante(Console.ReadLine());
 
-                if (Id == false)
-                {
-                    MensajeError("Identificación no válida.");
-                }
+                if (Id == false) MensajeError("Identificación no válida.");
                 else
                 {
-                    MostrarLibrosAlquiler();
+                    MostrarLibros(libros, "Alquiler");
+
                     Console.WriteLine("\nIngrese título del libro que desea alquilar.");
                     string nombre = Console.ReadLine();
 
-                    for (int i = 0; i < LibrosAlquiler.Count; i++)
+                    for (int i = 0; i < libros.Count; i++)
                     {
-                        if (nombre == LibrosAlquiler[i].Titulo)
+                        if (nombre == libros[i].Titulo)
                         {
-                            if (LibrosAlquiler[i].Cantidad == 0)
+                            if (libros[i].Cantidad == 0)
                             {
                                 Console.WriteLine("El libro actualmente no se encuentra en el sistema.");
                             }
@@ -177,14 +162,14 @@ namespace Venta_y_alquiler_de_Libros
                             {
                                 Console.WriteLine("¿Cuántos desea alquilar?");
                                 int cant = Int32.Parse(Console.ReadLine());
-                                if (cant > LibrosAlquiler[i].Cantidad || cant > 3)
+                                if (cant > libros[i].Cantidad || cant > 3)
                                 {
                                     Console.WriteLine("Límite excedido (Libro no disponible o se intentó alquilar más de 3).");
                                 }
                                 else
                                 {
-                                    LibrosAlquiler[i] = new Libro(LibrosAlquiler[i].Titulo, LibrosAlquiler[i].Autor, LibrosAlquiler[i].ISBN, LibrosAlquiler[i].Cantidad - cant, LibrosAlquiler[i].Cantidad);
-                                    Console.WriteLine($"Su total es de: C${LibrosAlquiler[i].Precio * cant}, pagar en caja por favor.");
+                                    libros[i] = new Libro(libros[i].Titulo, libros[i].Autor, LibrosAlquiler[i].ISBN, LibrosAlquiler[i].Cantidad - cant, LibrosAlquiler[i].Cantidad);
+                                    Console.WriteLine($"Su total es de: C${libros[i].Precio * cant}, pagar en caja por favor.");
                                     DateTime fechaAlquiler = DateTime.Now;
                                     DateTime fechaDevolucion = fechaAlquiler.AddDays(3);
                                     Console.WriteLine($"Su alquiler fue hecho el {fechaAlquiler:dd/MM/yyyy}, deberá devolverlo el {fechaDevolucion:dd/MM/yyyy}.");
@@ -199,16 +184,15 @@ namespace Venta_y_alquiler_de_Libros
             {
                 bool Id = BoolIdProfesor(Console.ReadLine());
                 {
-                    MostrarLibrosAlquiler();
-                    Console.WriteLine("");
-                    Console.WriteLine("Ingrese título del libro que desea alquilar.");
+                    MostrarLibros(libros, "Alquiler");
+                    Console.WriteLine("\nIngrese título del libro que desea alquilar.");
                     string nombre = Console.ReadLine();
 
-                    for (int i = 0; i < LibrosAlquiler.Count; i++)
+                    for (int i = 0; i < libros.Count; i++)
                     {
-                        if (nombre == LibrosAlquiler[i].Titulo)
+                        if (nombre == libros[i].Titulo)
                         {
-                            if (LibrosAlquiler[i].Cantidad == 0)
+                            if (libros[i].Cantidad == 0)
                             {
                                 Console.WriteLine("El libro actualmente no se encuentra en el sistema.");
                             }
@@ -216,14 +200,14 @@ namespace Venta_y_alquiler_de_Libros
                             {
                                 Console.WriteLine("¿Cuántos desea alquilar?");
                                 int cant = Int32.Parse(Console.ReadLine());
-                                if (cant > LibrosAlquiler[i].Cantidad || cant > 3)
+                                if (cant > libros[i].Cantidad || cant > 3)
                                 {
                                     Console.WriteLine("Límite excedido (Libro no disponible o se intentó alquilar más de 3).");
                                 }
                                 else
                                 {
                                     // Actualizamos la cantidad disponible
-                                    LibrosAlquiler[i] = new Libro(LibrosAlquiler[i].Titulo, LibrosAlquiler[i].Autor, LibrosAlquiler[i].ISBN, LibrosAlquiler[i].Cantidad - cant, LibrosAlquiler[i].Cantidad);
+                                    libros[i] = new Libro(libros[i].Titulo, LibrosAlquiler[i].Autor, LibrosAlquiler[i].ISBN, LibrosAlquiler[i].Cantidad - cant, LibrosAlquiler[i].Cantidad);
                                     Console.WriteLine($"Su total es de: C${LibrosAlquiler[i].Precio * cant}, pagar en caja por favor.");
                                     DateTime fechaAlquiler = DateTime.Now;
                                     DateTime fechaDevolucion = fechaAlquiler.AddDays(7);
@@ -251,12 +235,10 @@ namespace Venta_y_alquiler_de_Libros
             {
                 MensajeError("Opcion invalida");
             }
-
         }
         public static bool BoolIdEstudiante(string id)
         {
-            Console.WriteLine("Ingrese su identificacion");
-            id = Console.ReadLine();
+            id = DeclararVariable("Ingrese su identificacion");
             bool tieneLetra = id.Any(char.IsLetter);
             bool tieneGuion = id.Contains("-");
             bool esUnico = BoolUnico(id);
@@ -270,8 +252,7 @@ namespace Venta_y_alquiler_de_Libros
         }
         public static bool BoolIdProfesor(string id)
         {
-            Console.WriteLine("Ingrese su identificacion");
-            id = Console.ReadLine();
+            id = DeclararVariable("Ingrese su identificacion");
             bool tieneLetra = id.Any(char.IsLetter);
             bool tieneGuion = id.Contains("-");
             bool tieneNumeral = id.Contains("#");
@@ -287,17 +268,13 @@ namespace Venta_y_alquiler_de_Libros
         public static bool BoolUnico(string id)
         {
             return !Usuarios.ContainsKey(id);
-
         } //Comprueba si el Id es irrepetible, de ser asi, retorna true
         public static void Administrador()
         {
             Console.Clear();
-            Console.WriteLine("Ingrese su nombre");
-            string nombre = Console.ReadLine();
-            Console.WriteLine("Ingrese contrasena para poder acceder");
-            string contrasena = "1234"; //contrasena unica
-            string contraconfirm = Console.ReadLine();
-            if (contraconfirm == contrasena)
+            string nombre = DeclararVariable("Ingrese su nombre");
+            string contraseña = DeclararVariable("Ingrese contrasena para poder acceder"); //contrasena unica
+            if (contraseña == "1234")
             {
                 Console.Clear();
                 Console.WriteLine($"Bienvenido, administrador/a {nombre}");
@@ -309,30 +286,21 @@ namespace Venta_y_alquiler_de_Libros
                 {
                     case 1: 
                         Console.Clear();
-                        Console.WriteLine($"Los libros disponibles en apartado de ventas son: ");
-                        foreach (var libro in LibrosVenta)
-                        {
-                            Console.WriteLine($"Título: {libro.Titulo}, Autor: {libro.Autor}, Cantidad: {libro.ISBN}, Precio: {libro.Cantidad}");
-                        }
-                        Console.WriteLine("");
-                        Console.WriteLine($"Los libros disponibles en apartado de alquiler son: ");
-                        foreach (var libro in LibrosAlquiler)
-                        {
-                            Console.WriteLine($"Título: {libro.Titulo}, Autor: {libro.Autor}, Cantidad: {libro.ISBN}, Precio: {libro.Cantidad}");
-                        }
+                        MostrarLibros(LibrosVenta, "Venta"); 
+                        MostrarLibros(LibrosAlquiler, "Alquiler");
+
                         Console.WriteLine("\n1. Administrar libros del sistema. \n0. Volver a menu principal");
                         byte opc = Convert.ToByte(Console.ReadLine());
                         switch (opc)
                         {
                             case 1:
                                 AdministrarLibros();
-                                break;
-                            //agregar una lista libro
+                                break;//agregar una lista libro
                             case 2:
-                            //borrar libro
+                                break;//borrar libro
                             case 0:
                                 Menu1();
-                                break;
+                                break;//Salida
                             default:
                                 MensajeError("Error, intentelo de nuevo");
                                 break;
@@ -362,7 +330,7 @@ namespace Venta_y_alquiler_de_Libros
             int opcion = int.Parse(Console.ReadLine());
             switch (opcion)
             {
-                case 1: //AGREGAR LIBRO A LISTA}
+                case 1: 
 
                     Console.WriteLine("Ingrese informacion del libro.");
                     string  Titulo      = DeclararVariable("Titulo:");
@@ -377,62 +345,55 @@ namespace Venta_y_alquiler_de_Libros
                     {
                         LibrosVenta.Add(new Libro(Titulo, Autor, ISBN, cantidad, precio));
                         Console.WriteLine("El libro se ha agregado a la lista de ventas.");
-                        Console.ReadKey();
                     }
                     else if (opc == 2)
                     {
                         LibrosAlquiler.Add(new Libro(Titulo, Autor, ISBN, cantidad, precio));
                         Console.WriteLine("El libro se ha agregado a la lista de alquiler.");
-                        Console.ReadKey();
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine("Opción inválida. El libro no fue agregado.");
-                        Console.ReadKey();
+                        MensajeError("Opción inválida. El libro no fue agregado.");
                     }
-                    break;
-                case 2: //BORRAR LIBRO DEL SISTEMA
-                    Console.WriteLine("Ingrese el título del libro que desea eliminar:");
-                    string titulo = Console.ReadLine();
+                    Console.ReadKey();
+                    break; //AGREGAR LIBRO A LISTA
+                case 2: 
+                    string titulo = DeclararVariable("Ingrese el título del libro que desea eliminar:");
+
                     Console.WriteLine("1. Eliminar de Venta \n2. Eliminar de Alquiler");
                     byte op = byte.Parse(Console.ReadLine());
+
                     if (op == 1)
                     {
-                        for (int i = 0; i < LibrosVenta.Count; i++)
-                        {
-                            if (LibrosVenta[i].Titulo == titulo)
-                            {
-                                LibrosVenta.RemoveAt(i);
-                                Console.WriteLine("El libro ha sido eliminado de la lista de ventas.");
-                                break;
-                            }
-                        }
+                        BorrarLibro(LibrosVenta, titulo, "Venta");
                     }
                     else if (opcion == 2)
                     {
-                        for (int i = 0; i < LibrosAlquiler.Count; i++)
-                        {
-                            if (LibrosAlquiler[i].Titulo == titulo)
-                            {
-                                LibrosAlquiler.RemoveAt(i);
-                                Console.WriteLine("El libro ha sido eliminado de la lista de alquiler.");
-                                break;
-                            }
-                        }
+                        BorrarLibro(LibrosAlquiler, titulo, "Alquiler");
                     }
                     else
                     {
-                        Console.WriteLine("Opción inválida.");
+                        MensajeError("Opción inválida.");
                     }
-                    break;
+                    break; //BORRAR LIBRO DEL SISTEMA
                 case 0:
                     Menu1();
                     break;
                 default:
                     MensajeError("Error, intentelo de nuevo");
                     break;
-
+            }
+        }
+        public static void BorrarLibro(List<Libro> libro, string titulo, string tipo)
+        {
+            for (int i = 0; i < libro.Count; i++)
+            {
+                if (libro[i].Titulo == titulo)
+                {
+                    libro.RemoveAt(i);
+                    Console.WriteLine($"El libro ha sido eliminado de la lista de {tipo}.");
+                    break;
+                }
             }
         }
         public static string DeclararVariable(string Peticion)
@@ -448,7 +409,7 @@ namespace Venta_y_alquiler_de_Libros
             foreach (var libro in libros)
             {
                 Console.WriteLine($"Título: {libro.Titulo}");
-               // Console.WriteLine($"Fecha de Alquiler: {libro.FechaAlquiler.ToShortDateString()}");
+                // Console.WriteLine($"Fecha de Alquiler: {libro.FechaAlquiler.ToShortDateString()}");
                 //Console.WriteLine($"Fecha de Devolución: {libro.FechaDevolucion.ToShortDateString()}");
                 Console.WriteLine("--------------------");
             }
@@ -499,5 +460,4 @@ namespace Venta_y_alquiler_de_Libros
             ISBN = iSBN;
         }
     }
-
 }
