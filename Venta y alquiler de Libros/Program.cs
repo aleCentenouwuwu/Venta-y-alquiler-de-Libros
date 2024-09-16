@@ -78,8 +78,12 @@ namespace Venta_y_alquiler_de_Libros
 
         public static void Menu1()
         {
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
-            Console.WriteLine($"Bienvenido, a libreria Pompompurin\n");
+            string Bienvenida = "--------------------Bienvenido, a libreria Pompompurin--------------------\n";
+            Console.SetCursorPosition((Console.WindowWidth - Bienvenida.Length) / 2, Console.CursorTop);
+            Console.WriteLine(Bienvenida);
             Console.WriteLine("Que desea hacer?");
             Console.WriteLine("1. Comprar \n2. Alquilar \n3. Devolucion \n4. Inventario (solo administradores) \n0. Salir");
         }
@@ -113,8 +117,6 @@ namespace Venta_y_alquiler_de_Libros
             MostrarLibrosCompra(LibrosVenta);
             Console.WriteLine("\nIngrese titulo del libro que desea comprar.");
             string nombre = Console.ReadLine();
-
-            // tuve que ayudarme con la IA, perdon mi cabeza ya no da, son las 3am... lo siento :(
 
             for (int i = 0; i < LibrosVenta.Count; i++)
             {
