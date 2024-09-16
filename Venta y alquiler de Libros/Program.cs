@@ -46,19 +46,22 @@ namespace Venta_y_alquiler_de_Libros
         public static Dictionary<string, Usuario> Usuarios = new Dictionary<string, Usuario>()
             {
                 {
-                    "id 3839", new Usuario("Alexania", "Profesor")
+                    "2024-0248N", new Usuario("Alexania", "Profesor")
                 },
                 {
-                    "id 4659", new Usuario("Victor", "Estudiante")
+                    "2024-0277N", new Usuario("Victor", "Estudiante")
                 },
                 {
-                    "id 1256", new Usuario("Lia", "Estudiante")
+                    "2024-0220N", new Usuario("Lia", "Estudiante")
                 },
                 {
-                    "id 8596", new Usuario("PinkyPie", "Cliente")
+                    "2023-0234F", new Usuario("PinkyPie", "Cliente")
                 },
                 {
-                    "id aqui", new Usuario("Freddy", "Estudiante")
+                    "2024-0229N", new Usuario("Frederick", "Profesor")
+                },
+                {
+                    "2020-0440I", new Usuario("Graciela", "Profesor")
                 }
             };
 
@@ -128,10 +131,10 @@ namespace Venta_y_alquiler_de_Libros
         public static void MostrarLibros(List<Libro> libros, string tipo)
         {
             SonidoMenu();
-            Console.WriteLine($"\nLos libros disponibles en apartado de {tipo} son: \n\n");
+            Console.WriteLine($"\n\nLos libros disponibles en apartado de {tipo} son:\n");
             foreach (var Libro in libros)
             {
-                Console.WriteLine($"{Libro.Titulo}, de {Libro.Autor}, ISBN: {Libro.ISBN}, Cantidad: {Libro.Cantidad}, \tPrecio: C${Libro.Precio}\n");
+                Console.WriteLine($"{Libro.Titulo}, de {Libro.Autor}, ISBN: {Libro.ISBN}, Cantidad: {Libro.Cantidad}, \tPrecio: C${Libro.Precio}");
             }
         } //imprime y muestra todos los datos de cada libro en una matriz dada
         public static void Venta(List<Libro> libros)
@@ -174,7 +177,7 @@ namespace Venta_y_alquiler_de_Libros
                 MensajeError("Lo siento, no puede alquilar libros");
                 return;
             }
-
+            Console.Clear();
             MostrarLibros(libros, "Alquiler");
             int i = BuscaLibros(libros, "alquilar");
 
@@ -272,6 +275,8 @@ namespace Venta_y_alquiler_de_Libros
             Console.WriteLine("\n¿Cuántos libros va a devolver?");
             int cant = Int32.Parse(Console.ReadLine());
             libros[i].Cantidad += cant;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Devolucion realizada con exito.");
             Console.ReadKey();
         }
         public static string VerificacionID()
@@ -303,7 +308,6 @@ namespace Venta_y_alquiler_de_Libros
                 SonidoMenu();
                 Console.WriteLine($"Bienvenido, administrador/a {nombre}");
                 Console.WriteLine("1. Inventario");
-                Console.WriteLine("2. Historial de Movimientos");
                 Console.WriteLine("0. Volver");
                 byte opc1 = Convert.ToByte(Console.ReadLine());
                 switch (opc1)
