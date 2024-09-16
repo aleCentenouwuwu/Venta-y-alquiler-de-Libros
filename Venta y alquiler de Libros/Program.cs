@@ -84,7 +84,7 @@ namespace Venta_y_alquiler_de_Libros
             string Bienvenida = "--------------------Bienvenido, a libreria Pompompurin--------------------\n";
             Console.SetCursorPosition((Console.WindowWidth - Bienvenida.Length) / 2, Console.CursorTop);
             Console.WriteLine(Bienvenida);
-            Console.WriteLine("Que desea hacer?");
+            Console.WriteLine("Que desea hacer??");
             Console.WriteLine("1. Comprar \n2. Alquilar \n3. Devolucion \n4. Inventario (solo administradores) \n0. Salir");
         }
         public static void MensajeError(string msg)
